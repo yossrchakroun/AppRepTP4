@@ -13,13 +13,20 @@ public class Client {
 		 DatagramSocket socket = new DatagramSocket();
 		 
          Scanner sc = new Scanner(System.in);
-
+         System.out.println(" CLIENT CHAT UDP BIDIRECTIONNEL");
          System.out.print("Entez votre nom d'utilisateur :");
          String Name = sc.nextLine().trim();
          
          // Adresse du serveur (localhost)
          InetAddress adresseServeur = InetAddress.getByName("localhost");
          System.out.println("Tapez vos messages (tapez 'quit' pour quitter)\n");
+         
+      //AJOUT : Démarrer le thread de réception
+         Thread threadReception = new Thread(new ThreadReception(socket));
+         threadReception.setDaemon(true);  // Thread daemon (se ferme avec le programme)
+         threadReception.start();
+         
+         
          while (true) {
              System.out.print(Name + " > ");
              String msg = sc.nextLine();
